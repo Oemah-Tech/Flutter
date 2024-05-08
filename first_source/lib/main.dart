@@ -5,7 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:lan_larn/src/utils/common/app_logger.dart';
 
-import 'config/firebase_options.dart';
+import 'src/config/firebase_options.dart';
 import 'src/app.dart';
 
 void main() async {
