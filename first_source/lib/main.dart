@@ -3,18 +3,22 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:lan_larn/src/utils/common/app_logger.dart';
 
-import 'src/config/firebase_options.dart';
 import 'src/app.dart';
+import 'src/config/firebase_options.dart';
+import 'src/utils/common/com_logger.dart';
+import 'src/utils/common/com_prefs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    AppLogger.su("Start Application - LanLan");
+    ComLogger.su("Start Application - LanLan");
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    await ComPrefs.setInit(true);
+
     recordCrashlytics();
     runApp(const App());
   } catch (error) {
@@ -23,7 +27,7 @@ void main() async {
 }
 
 void recordCrashlytics() {
-  AppLogger.su("Record [Crashlytics]");
+  ComLogger.su("Record [Crashlytics]");
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };

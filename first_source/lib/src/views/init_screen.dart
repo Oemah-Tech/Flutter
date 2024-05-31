@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../utils/common/app_theme.dart';
-import '../utils/constants/path_string.dart';
+import '../utils/constants/con_path.dart';
 
 class InitScreen extends StatefulWidget {
   const InitScreen({super.key});
@@ -17,17 +16,18 @@ class _InitScreenState extends State<InitScreen> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () {
-      context.pushReplacement(PathString.splashScreen);
+      context.pushReplacement(ConPath.splashScreen);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: Center(
         child: Image.asset(
-          "assets/images/main_logo.png",
+          Theme.of(context).brightness == Brightness.dark
+              ? "assets/images/main-logo-dark.png"
+              : "assets/images/main-logo-light.png",
           width: 200,
         ),
       ),

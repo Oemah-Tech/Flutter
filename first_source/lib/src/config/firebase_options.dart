@@ -2,11 +2,8 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-import '../utils/common/app_logger.dart';
-
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    AppLogger.su("Start Initialize [Firebase]");
     if (kIsWeb) {
       throw UnsupportedError(
         'DefaultFirebaseOptions have not been configured for web - '
@@ -15,10 +12,8 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        AppLogger.su("Generate Firebase options for Android");
         return android;
       case TargetPlatform.iOS:
-        AppLogger.su("Generate Firebase options for iOS");
         return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
@@ -44,7 +39,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBPsPu3iTJnkkujPgVOw4BKlIIs6ZkAe4M',
-    appId: '1:1032370973427:android:021c2d3bbb1f0ac212a586',
+    appId: '1:1032370973427:android:c9ea6584cbdf720612a586',
     messagingSenderId: '1032370973427',
     projectId: 'forum-universal',
     storageBucket: 'forum-universal.appspot.com',
@@ -52,7 +47,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBZaWXL-09Z2hywKDtf-bkYCMI7uGd0zFg',
-    appId: '1:1032370973427:ios:98426b18ccc9377b12a586',
+    appId: '1:1032370973427:ios:b18e8acc30f0252a12a586',
     messagingSenderId: '1032370973427',
     projectId: 'forum-universal',
     storageBucket: 'forum-universal.appspot.com',

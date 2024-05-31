@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-enum Transition {
+enum RouteTransition {
   fade,
   none,
 }
 
 class RouteBuilder {
+  static final RouteBuilder _instance = RouteBuilder._internal();
+  RouteBuilder._internal();
+  factory RouteBuilder() => _instance;
+
   static CustomTransitionPage transition(
       {LocalKey? key,
       String? name,
-      Transition transition = Transition.fade,
+      required RouteTransition transition,
       required Widget child}) {
     return CustomTransitionPage(
         key: key,
@@ -18,14 +22,14 @@ class RouteBuilder {
         child: child,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           switch (transition) {
-            case Transition.fade:
+            case RouteTransition.fade:
               return FadeTransition(
                 opacity:
                     CurveTween(curve: Curves.easeInCirc).animate(animation),
                 child: child,
               );
 
-            case Transition.none:
+            case RouteTransition.none:
               return child;
           }
         });

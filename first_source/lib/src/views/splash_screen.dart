@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lan_lan/src/utils/common/com_prefs.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../utils/common/app_theme.dart';
-import '../utils/constants/path_string.dart';
+import '../utils/constants/con_color.dart';
+import '../utils/constants/con_path.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,10 +17,12 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   AnimationController? _controller;
-  final Duration _duration = const Duration(seconds: 5);
   double _percent = 0.0;
+  late bool isOnBoarding;
 
-  void startAnimate() {
+  final Duration _duration = const Duration(seconds: 5);
+
+  void _startAnimate() {
     _controller = AnimationController(
       vsync: this,
       duration: _duration,
@@ -34,34 +38,42 @@ class _SplashScreenState extends State<SplashScreen>
         });
 
         if (_percent == 1.0) {
-          context.pushReplacement(PathString.onboardingScreen);
+          if (isOnBoarding == false) {
+            context.pushReplacement(ConPath.onboardingScreen);
+          } else {
+            context.pushReplacement(ConPath.loginScreen);
+          }
         }
       });
+  }
+
+  void _initializePrefs() async {
+    isOnBoarding = await ComPrefs.getOnBoarding();
   }
 
   @override
   void initState() {
     super.initState();
 
-    startAnimate();
+    _initializePrefs();
+    _startAnimate();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            "assets/images/main_logo.png",
+            Theme.of(context).brightness == Brightness.dark
+                ? "assets/images/main-logo-dark.png"
+                : "assets/images/main-logo-light.png",
             width: 200,
           ),
-          const SizedBox(
-            height: 30,
-          ),
+          const Gap(30),
           LinearPercentIndicator(
             alignment: MainAxisAlignment.center,
             width: MediaQuery.of(context).size.width - 60,
@@ -69,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
             percent: _percent,
             center: Text("${(_percent * 100).toStringAsFixed(1)}%"),
             barRadius: const Radius.circular(10),
-            progressColor: const Color(0xFF4D869C),
+            progressColor: ConColor.tertiaryColor,
           ),
         ],
       )),
